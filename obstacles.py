@@ -1,7 +1,6 @@
 import numpy as np
 import GPS_readings as gr
 
-
 def create_obstacles():
     obstacles = []
 
@@ -43,6 +42,5 @@ def create_obstacles():
     return obstacles
 
 
-if __name__ == "__main__":
-    obstacles = create_obstacles()
-    print(obstacles)
+obstacles = create_obstacles()
+print(obstacles)

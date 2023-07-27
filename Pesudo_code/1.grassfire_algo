@@ -1,0 +1,13 @@
+for each node n in the graph
+    n.distance = infinity
+
+create empty list
+
+goal.distance = 0, add goal to list
+
+while list not empty
+    current = first node in list, remove current from list
+    for each node n that is adjacent to current
+        if n.distance = infinity
+            n.distance = current.distance + 1
+    add n to back of the list

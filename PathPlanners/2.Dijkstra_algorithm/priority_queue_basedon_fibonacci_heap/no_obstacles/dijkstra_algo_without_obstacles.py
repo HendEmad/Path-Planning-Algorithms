@@ -1,6 +1,6 @@
 import GPS_readings as gr
-import fibheap
 import random
+from heapdict import heapdict
 
 
 class Graph:
@@ -25,7 +25,7 @@ class Graph:
 
     def get_neighbors(self, node):
         x, y = node
-        neighbors = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]  # 4 adjacent points/ neighbors
+        neighbors = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
         return [n for n in neighbors if n in self.graph]
 
     def get_distance(self, node):
@@ -41,10 +41,10 @@ class Graph:
             self.graph[node]['neighbors'][neighbor] = weight
 
     def dijkstra(self):
-        heap = fibheap.FibHeap()
-        heap.add(0, (int(self.start_x), int(self.start_y)))
+        heap = heapdict()
+        heap[(int(self.start_x), int(self.start_y))] = 0
         while heap:
-            dist, current_node = heap.extract_min()
+            current_node, dist = heap.popitem()
             if current_node == (int(self.end_x), int(self.end_y)):
                 path = []
                 while current_node is not None:
@@ -62,7 +62,7 @@ class Graph:
                 if new_distance < self.get_distance(neighbor):
                     self.set_distance(neighbor, new_distance)
                     self.graph[neighbor]['parent'] = current_node
-                    heap.add(new_distance, neighbor)
+                    heap[neighbor] = new_distance
         return None
 
 

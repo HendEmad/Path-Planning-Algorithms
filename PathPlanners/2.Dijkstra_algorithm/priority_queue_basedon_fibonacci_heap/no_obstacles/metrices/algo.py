@@ -1,6 +1,6 @@
 import GPS_readings as gr
 import random
-from collections import defaultdict
+from heapdict import heapdict
 
 
 class Graph:
@@ -41,14 +41,10 @@ class Graph:
             self.graph[node]['neighbors'][neighbor] = weight
 
     def dijkstra(self):
-        heap = defaultdict(list)
-        heap[0].append((int(self.start_x), int(self.start_y)))
+        heap = heapdict()
+        heap[(int(self.start_x), int(self.start_y))] = 0
         while heap:
-            min_distance = min(heap)
-            current_node = heap[min_distance].pop(0)
-            if not heap[min_distance]:
-                del heap[min_distance]
-
+            current_node, dist = heap.popitem()
             if current_node == (int(self.end_x), int(self.end_y)):
                 path = []
                 while current_node is not None:
@@ -57,7 +53,7 @@ class Graph:
                 path.reverse()
                 return [(float(x), float(y)) for x, y in path]
 
-            if min_distance > self.get_distance(current_node):
+            if dist > self.get_distance(current_node):
                 continue
 
             for neighbor in self.get_neighbors(current_node):
@@ -66,8 +62,7 @@ class Graph:
                 if new_distance < self.get_distance(neighbor):
                     self.set_distance(neighbor, new_distance)
                     self.graph[neighbor]['parent'] = current_node
-                    heap[new_distance].append(neighbor)
-
+                    heap[neighbor] = new_distance
         return None
 
 
@@ -82,7 +77,7 @@ def calculate_execution_time(func):
         execution_time = end_time - start_time
         print(f"Execution time: {execution_time} seconds")
 
-        return result
+        return result, execution_time
     return wrapper
 
 

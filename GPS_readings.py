@@ -11,7 +11,7 @@ smtpUser = 'user1.python@gmail.com'
 smtpPass = 'hwwa fgzb pkag lifk'
 toAdd = ['hendegypt7@gmail.com']
 fromAdd = smtpUser
-ADAFRUIT_IO_KEY = 'aio_jZNs81ly5pjDdr2Fc5beQDc7JsP9'
+ADAFRUIT_IO_KEY = 'aio_RdNs80OLqTUw1RRf5k2eGGTOwefP'
 ADAFRUIT_IO_USERNAME = 'HendEmad'
 
 current_state = 0

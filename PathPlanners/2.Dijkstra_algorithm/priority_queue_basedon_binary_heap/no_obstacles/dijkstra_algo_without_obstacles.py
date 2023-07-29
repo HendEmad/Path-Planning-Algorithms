@@ -35,10 +35,15 @@ class Graph:
         self.graph[node]['distance'] = distance
 
     def set_weights(self, node, weights):
+        count = 0
         neighbors = self.get_neighbors(node)
+        print("Loop starts...")
         for neighbor in neighbors:
             weight = random.choice(weights)
             self.graph[node]['neighbors'][neighbor] = weight
+            count += 1
+        print("Loop ends...")
+        print(f"count = {count}")
 
     def dijkstra(self):
         heap = [(0, (int(self.start_x), int(self.start_y)))]

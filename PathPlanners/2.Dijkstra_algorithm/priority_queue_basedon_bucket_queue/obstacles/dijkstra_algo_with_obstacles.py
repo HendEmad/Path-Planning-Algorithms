@@ -1,5 +1,4 @@
 import GPS_readings as gr
-import heapq
 import random
 from obstacles import create_obstacles
 
@@ -14,6 +13,7 @@ class Graph:
         self.width = int(end_x) - int(start_x) + 1
         self.height = int(end_y) - int(start_y) + 1
         self.obstacles = obstacles
+        self.bucket = {}
 
         for x in range(int(start_x), int(end_x) + 1):
             for y in range(int(start_y), int(end_y) + 1):
@@ -31,8 +31,7 @@ class Graph:
         neighbors = [(x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)]
         valid_neighbors = []
         for neighbor in neighbors:
-            if neighbor in self.graph and self.graph[neighbor] is not None and \
-                    not self.is_obstacle(neighbor):
+            if neighbor in self.graph and self.graph[neighbor] is not None and not self.is_obstacle(neighbor):
                 valid_neighbors.append(neighbor)
         return valid_neighbors
 
@@ -50,15 +49,18 @@ class Graph:
 
     def is_obstacle(self, node):
         for obstacle in self.obstacles:
-            if len(obstacle) == 3:  # circle obstacle
+            if len(obstacle) == 3:
+                # circle obstacle
                 x, y, r = obstacle
                 if (node[0] - x) ** 2 + (node[1] - y) ** 2 <= r ** 2:
                     return True
-            elif len(obstacle) == 4:  # rectangle obstacle
+            elif len(obstacle) == 4:
+                # rectangle obstacle
                 x1, y1, x2, y2 = obstacle
                 if x1 <= node[0] <= x2 and y1 <= node[1] <= y2:
                     return True
-            elif len(obstacle) == 6:  # triangle obstacle
+            elif len(obstacle) == 6:
+                # triangle obstacle
                 x1, y1, x2, y2, x3, y3 = obstacle
                 A = 1 / 2 * (-y2 * y3 + y1 * (-y2 + y3) + x1 * (x2 - x3) + x2 * y3 - x3 * y2)
                 sign = -1 if A < 0 else 1
@@ -70,9 +72,14 @@ class Graph:
         return False
 
     def dijkstra(self):
-        heap = [(0, (int(self.start_x), int(self.start_y)))]
-        while heap:
-            dist, current_node = heapq.heappop(heap)
+        self.bucket[0] = [(int(self.start_x), int(self.start_y))]
+        while self.bucket:
+            min_distance = min(self.bucket.keys())
+            current_node = self.bucket[min_distance].pop(0)
+
+            if not self.bucket[min_distance]:
+                del self.bucket[min_distance]
+
             if current_node == (int(self.end_x), int(self.end_y)):
                 path = []
                 while current_node is not None:
@@ -81,7 +88,7 @@ class Graph:
                 path.reverse()
                 return [(float(x), float(y)) for x, y in path]
 
-            if dist > self.get_distance(current_node):
+            if min_distance > self.get_distance(current_node):
                 continue
 
             for neighbor in self.get_neighbors(current_node):
@@ -90,7 +97,12 @@ class Graph:
                 if new_distance < self.get_distance(neighbor):
                     self.set_distance(neighbor, new_distance)
                     self.graph[neighbor]['parent'] = current_node
-                    heapq.heappush(heap, (new_distance, neighbor))
+
+                    if new_distance in self.bucket:
+                        self.bucket[new_distance].append(neighbor)
+                    else:
+                        self.bucket[new_distance] = [neighbor]
+
         return None
 
 

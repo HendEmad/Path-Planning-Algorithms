@@ -1,7 +1,7 @@
 import GPS_readings as gr
 import random
 from collections import defaultdict
-
+from memory_profiler import profile
 
 class Graph:
     def __init__(self, start_x, start_y, end_x, end_y, weights):
@@ -86,6 +86,7 @@ def calculate_execution_time(func):
     return wrapper
 
 
+@profile
 @calculate_execution_time
 def run_dijkstra(start_x, start_y, end_x, end_y, weights):
     graph = Graph(start_x, start_y, end_x, end_y, weights)

@@ -1,7 +1,6 @@
 import GPS_readings as gr
 import random
-from heapdict import heapdict
-from memory_profiler import profile
+from collections import defaultdict
 
 
 class Graph:
@@ -42,10 +41,14 @@ class Graph:
             self.graph[node]['neighbors'][neighbor] = weight
 
     def dijkstra(self):
-        heap = heapdict()
-        heap[(int(self.start_x), int(self.start_y))] = 0
+        heap = defaultdict(list)
+        heap[0].append((int(self.start_x), int(self.start_y)))
         while heap:
-            current_node, dist = heap.popitem()
+            min_distance = min(heap)
+            current_node = heap[min_distance].pop(0)
+            if not heap[min_distance]:
+                del heap[min_distance]
+
             if current_node == (int(self.end_x), int(self.end_y)):
                 path = []
                 while current_node is not None:
@@ -54,7 +57,7 @@ class Graph:
                 path.reverse()
                 return [(float(x), float(y)) for x, y in path]
 
-            if dist > self.get_distance(current_node):
+            if min_distance > self.get_distance(current_node):
                 continue
 
             for neighbor in self.get_neighbors(current_node):
@@ -63,7 +66,8 @@ class Graph:
                 if new_distance < self.get_distance(neighbor):
                     self.set_distance(neighbor, new_distance)
                     self.graph[neighbor]['parent'] = current_node
-                    heap[neighbor] = new_distance
+                    heap[new_distance].append(neighbor)
+
         return None
 
 
@@ -74,15 +78,12 @@ def calculate_execution_time(func):
         start_time = time.time()
         result = func(*args)
         end_time = time.time()
-
         execution_time = end_time - start_time
-        print(f"Execution time: {execution_time} seconds")
+        return result, execution_time
 
-        return result
     return wrapper
 
 
-@profile
 @calculate_execution_time
 def run_dijkstra(start_x, start_y, end_x, end_y, weights):
     graph = Graph(start_x, start_y, end_x, end_y, weights)

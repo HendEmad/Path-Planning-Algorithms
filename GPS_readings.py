@@ -11,7 +11,7 @@ smtpUser = 'user1.python@gmail.com'
 smtpPass = 'hwwa fgzb pkag lifk'
 toAdd = ['hendegypt7@gmail.com']
 fromAdd = smtpUser
-ADAFRUIT_IO_KEY = 'aio_NqGp39mvKUVjFLhWSDkOmesXePX8'
+ADAFRUIT_IO_KEY = 'aio_luRm44czORcHsPL9LrTU32puNB5c'
 ADAFRUIT_IO_USERNAME = 'HendEmad'
 
 current_state = 0
@@ -94,3 +94,12 @@ print("Start location in x and y = ({0}, {1})".format(start_x, start_y))
 
 print("End location in lat and lng = ({0}, {1})".format(end_lat, end_lng))
 print("End location in x and y = ({0}, {1})".format(end_x, end_y))
+
+width = float(end_x) - float(start_x)
+height = float(end_y) - float(start_y)
+print("This path performs on area of ", width, "m x ", height, "m")
+
+print(sys.getsizeof(start_x))  # 24
+print(sys.getsizeof(start_y))  # 24
+print(sys.getsizeof(end_x))  # 24
+print(sys.getsizeof(end_y))  # 24

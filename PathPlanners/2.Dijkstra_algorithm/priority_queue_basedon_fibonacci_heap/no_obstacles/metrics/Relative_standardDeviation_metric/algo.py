@@ -1,7 +1,6 @@
 import GPS_readings as gr
 import random
 from heapdict import heapdict
-from memory_profiler import profile
 
 
 class Graph:
@@ -74,15 +73,12 @@ def calculate_execution_time(func):
         start_time = time.time()
         result = func(*args)
         end_time = time.time()
-
         execution_time = end_time - start_time
-        print(f"Execution time: {execution_time} seconds")
+        return result, execution_time
 
-        return result
     return wrapper
 
 
-@profile
 @calculate_execution_time
 def run_dijkstra(start_x, start_y, end_x, end_y, weights):
     graph = Graph(start_x, start_y, end_x, end_y, weights)

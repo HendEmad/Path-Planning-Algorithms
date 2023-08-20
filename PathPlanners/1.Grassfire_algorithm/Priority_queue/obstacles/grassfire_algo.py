@@ -114,7 +114,7 @@ def calculate_execution_time(func):
         result = func(*args)
         end_time = time.time()
         execution_time = end_time - start_time
-        return result, execution_time
+        return result
 
     return wrapper
 

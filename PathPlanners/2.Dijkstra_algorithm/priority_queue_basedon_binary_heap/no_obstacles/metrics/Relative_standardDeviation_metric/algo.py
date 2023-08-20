@@ -1,7 +1,7 @@
+import sys
 import GPS_readings as gr
+import heapq
 import random
-from heapdict import heapdict
-from memory_profiler import profile
 
 
 class Graph:
@@ -42,10 +42,9 @@ class Graph:
             self.graph[node]['neighbors'][neighbor] = weight
 
     def dijkstra(self):
-        heap = heapdict()
-        heap[(int(self.start_x), int(self.start_y))] = 0
+        heap = [(0, (int(self.start_x), int(self.start_y)))]
         while heap:
-            current_node, dist = heap.popitem()
+            dist, current_node = heapq.heappop(heap)
             if current_node == (int(self.end_x), int(self.end_y)):
                 path = []
                 while current_node is not None:
@@ -63,7 +62,7 @@ class Graph:
                 if new_distance < self.get_distance(neighbor):
                     self.set_distance(neighbor, new_distance)
                     self.graph[neighbor]['parent'] = current_node
-                    heap[neighbor] = new_distance
+                    heapq.heappush(heap, (new_distance, neighbor))
         return None
 
 
@@ -74,15 +73,12 @@ def calculate_execution_time(func):
         start_time = time.time()
         result = func(*args)
         end_time = time.time()
-
         execution_time = end_time - start_time
-        print(f"Execution time: {execution_time} seconds")
+        return result, execution_time
 
-        return result
     return wrapper
 
 
-@profile
 @calculate_execution_time
 def run_dijkstra(start_x, start_y, end_x, end_y, weights):
     graph = Graph(start_x, start_y, end_x, end_y, weights)
@@ -96,3 +92,4 @@ print(f"Path: {path}")
 width = float(gr.end_x) - float(gr.start_x)
 height = float(gr.end_y) - float(gr.start_y)
 print("This path performs on area of ", width, "m x ", height, "m")
+

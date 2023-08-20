@@ -1,5 +1,4 @@
 import GPS_readings as gr
-import heapq
 import random
 
 
@@ -12,6 +11,7 @@ class Graph:
         self.graph = {}
         self.width = int(end_x) - int(start_x) + 1
         self.height = int(end_y) - int(start_y) + 1
+        self.bucket = {}
 
         for x in range(int(start_x), int(end_x) + 1):
             for y in range(int(start_y), int(end_y) + 1):
@@ -41,9 +41,14 @@ class Graph:
             self.graph[node]['neighbors'][neighbor] = weight
 
     def dijkstra(self):
-        heap = [(0, (int(self.start_x), int(self.start_y)))]
-        while heap:
-            dist, current_node = heapq.heappop(heap)
+        self.bucket[0] = [(int(self.start_x), int(self.start_y))]
+        while self.bucket:
+            min_distance = min(self.bucket.keys())
+            current_node = self.bucket[min_distance].pop(0)
+
+            if not self.bucket[min_distance]:
+                del self.bucket[min_distance]
+
             if current_node == (int(self.end_x), int(self.end_y)):
                 path = []
                 while current_node is not None:
@@ -52,7 +57,7 @@ class Graph:
                 path.reverse()
                 return [(float(x), float(y)) for x, y in path]
 
-            if dist > self.get_distance(current_node):
+            if min_distance > self.get_distance(current_node):
                 continue
 
             for neighbor in self.get_neighbors(current_node):
@@ -61,7 +66,12 @@ class Graph:
                 if new_distance < self.get_distance(neighbor):
                     self.set_distance(neighbor, new_distance)
                     self.graph[neighbor]['parent'] = current_node
-                    heapq.heappush(heap, (new_distance, neighbor))
+
+                    if new_distance in self.bucket:
+                        self.bucket[new_distance].append(neighbor)
+                    else:
+                        self.bucket[new_distance] = [neighbor]
+
         return None
 
 
@@ -72,11 +82,9 @@ def calculate_execution_time(func):
         start_time = time.time()
         result = func(*args)
         end_time = time.time()
-
         execution_time = end_time - start_time
-        print(f"Execution time: {execution_time} seconds")
-
         return result, execution_time
+
     return wrapper
 
 

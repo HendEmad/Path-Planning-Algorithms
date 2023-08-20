@@ -1,3 +1,5 @@
+import sys
+from memory_profiler import profile
 import GPS_readings as gr
 import heapq
 import random
@@ -35,15 +37,10 @@ class Graph:
         self.graph[node]['distance'] = distance
 
     def set_weights(self, node, weights):
-        count = 0
         neighbors = self.get_neighbors(node)
-        print("Loop starts...")
         for neighbor in neighbors:
             weight = random.choice(weights)
             self.graph[node]['neighbors'][neighbor] = weight
-            count += 1
-        print("Loop ends...")
-        print(f"count = {count}")
 
     def dijkstra(self):
         heap = [(0, (int(self.start_x), int(self.start_y)))]
@@ -85,12 +82,14 @@ def calculate_execution_time(func):
     return wrapper
 
 
+@profile
 @calculate_execution_time
 def run_dijkstra(start_x, start_y, end_x, end_y, weights):
     graph = Graph(start_x, start_y, end_x, end_y, weights)
     return graph.dijkstra()
 
 
+# Suppose the weights are the time of the journey or any other factor like speed...
 weights = [2.135, 1.2364, 3.1367, 4.695, 5.65213, 6.16947, 10.25445, 19.265]
 path = run_dijkstra(gr.start_x, gr.start_y, gr.end_x, gr.end_y, weights)
 print(f"Path: {path}")
@@ -98,3 +97,4 @@ print(f"Path: {path}")
 width = float(gr.end_x) - float(gr.start_x)
 height = float(gr.end_y) - float(gr.start_y)
 print("This path performs on area of ", width, "m x ", height, "m")
+

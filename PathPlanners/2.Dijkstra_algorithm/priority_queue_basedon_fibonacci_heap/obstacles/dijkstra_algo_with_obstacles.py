@@ -3,6 +3,7 @@ import random
 from heapdict import heapdict
 from obstacles import create_obstacles
 
+
 class Graph:
     def __init__(self, start_x, start_y, end_x, end_y, weights, obstacles):
         self.start_x = start_x

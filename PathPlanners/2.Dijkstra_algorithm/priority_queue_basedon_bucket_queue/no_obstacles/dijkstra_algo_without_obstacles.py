@@ -1,5 +1,6 @@
 import GPS_readings as gr
 import random
+from collections import defaultdict
 from memory_profiler import profile
 
 class Graph:
@@ -11,7 +12,6 @@ class Graph:
         self.graph = {}
         self.width = int(end_x) - int(start_x) + 1
         self.height = int(end_y) - int(start_y) + 1
-        self.bucket = {}
 
         for x in range(int(start_x), int(end_x) + 1):
             for y in range(int(start_y), int(end_y) + 1):
@@ -28,6 +28,7 @@ class Graph:
         neighbors = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
         return [n for n in neighbors if n in self.graph]
 
+
     def get_distance(self, node):
         return self.graph[node]['distance']
 
@@ -41,13 +42,13 @@ class Graph:
             self.graph[node]['neighbors'][neighbor] = weight
 
     def dijkstra(self):
-        self.bucket[0] = [(int(self.start_x), int(self.start_y))]
-        while self.bucket:
-            min_distance = min(self.bucket.keys())
-            current_node = self.bucket[min_distance].pop(0)
-
-            if not self.bucket[min_distance]:
-                del self.bucket[min_distance]
+        heap = defaultdict(list)
+        heap[0].append((int(self.start_x), int(self.start_y)))
+        while heap:
+            min_distance = min(heap)
+            current_node = heap[min_distance].pop(0)
+            if not heap[min_distance]:
+                del heap[min_distance]
 
             if current_node == (int(self.end_x), int(self.end_y)):
                 path = []
@@ -66,11 +67,7 @@ class Graph:
                 if new_distance < self.get_distance(neighbor):
                     self.set_distance(neighbor, new_distance)
                     self.graph[neighbor]['parent'] = current_node
-
-                    if new_distance in self.bucket:
-                        self.bucket[new_distance].append(neighbor)
-                    else:
-                        self.bucket[new_distance] = [neighbor]
+                    heap[new_distance].append(neighbor)
 
         return None
 

@@ -1,7 +1,6 @@
 import GPS_readings as gr
 import random
 
-
 class Graph:
     def __init__(self, start_x, start_y, end_x, end_y, weights):
         self.start_x = start_x

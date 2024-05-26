@@ -1,46 +1,48 @@
-import numpy as np
-import GPS_readings as gr
+# create_obstacles.py
+import GPSReadings as gr
 
 def create_obstacles():
     obstacles = []
 
     # circle obstacle
-    x = (gr.end_x + gr.start_x)/2
-    y = (gr.end_y + gr.start_y)/2
-    r = 3
-    obstacles.append((x, y, r))
+    x = gr.start_x
+    y = gr.start_y + 0.12
+    r = 0.0165  # Adjusted radius for visibility
+    obstacles.append(('circle', x, y, r))
 
-    # rectangle obstacle
-    x1 = gr.start_x + 100
-    y1 = gr.start_y + 100
-    x2 = x1 + 5
-    y2 = y1 + 8
-    obstacles.append((x1, y1, x2, y2))
+    # another circle obstacle, blue
+    x = gr.start_x - 0.1
+    y = gr.start_y + 0.18
+    r = 0.01  # Adjusted radius for visibility
+    obstacles.append(('circle', x, y, r))
 
-    # triangle obstacle
-    x1 = gr.start_x + 500
-    y1 = gr.start_y + 500
-    x2 = x1 + 5
-    y2 = y1 + 5
-    x3 = (x1 + x2) / 2
-    y3 = (y1 + y2) / 2
-    obstacles.append((x1, y1, x2, y2, x3, y3))
+    # rectangle obstacle, red
+    x1 = gr.start_x + 0.01
+    y1 = gr.start_y + 0.01
+    x2 = x1 + 0.02
+    y2 = y1 + 0.03
+    obstacles.append(('rectangle', x1, y1, x2, y2))
 
-    # another circle obstacle
-    x = gr.start_x + 400
-    y = gr.start_y + 400
-    r = 3
-    obstacles.append((x, y, r))
+    # triangle obstacle, green
+    x1 = gr.start_x - 0.07
+    y1 = gr.start_y + 0.05
+    x2 = x1 + 0.03
+    y2 = y1 + 0.01
+    x3 = x1 + 0.05
+    y3 = y1 + 0.05
+    obstacles.append(('triangle', x1, y1, x2, y2, x3, y3))
 
-    # rectangle obstacle
-    x1 = gr.start_x + 600
-    y1 = gr.start_y + 650
-    x2 = x1 + 5
-    y2 = y1 + 8
-    obstacles.append((x1, y1, x2, y2))
+
+
+    # rectangle obstacle, blue
+    x1 = gr.start_x - 0.142
+    y1 = gr.start_y - 0.01
+    x2 = x1 + 0.03
+    y2 = y1 + 0.04
+    obstacles.append(('rectangle', x1, y1, x2, y2))
 
     return obstacles
 
-
-obstacles = create_obstacles()
-print(obstacles)
+if __name__ == "__main__":
+    obstacles = create_obstacles()
+    print(obstacles)

@@ -4,7 +4,7 @@ from collections import deque
 import random
 import numpy as np
 from obstacles import create_obstacles
-import GPS_readings as gr
+import server_readings as gr
 
 # PRM Parameters
 N_SAMPLES = 100  # Number of random samples

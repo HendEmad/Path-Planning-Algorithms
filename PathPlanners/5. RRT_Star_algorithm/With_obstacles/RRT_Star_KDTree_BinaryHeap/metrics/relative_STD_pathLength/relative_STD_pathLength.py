@@ -2,7 +2,7 @@ import math
 import random
 from heapq import heappush, heappop
 import numpy as np
-import GPS_readings as gr
+import server_readings as gr
 from scipy.spatial import KDTree
 
 import obstacles

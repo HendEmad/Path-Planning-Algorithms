@@ -2,7 +2,7 @@ import heapq
 import math
 from collections import deque
 from memory_profiler import profile
-import GPS_readings as gr
+import server_readings as gr
 import random
 import numpy as np
 

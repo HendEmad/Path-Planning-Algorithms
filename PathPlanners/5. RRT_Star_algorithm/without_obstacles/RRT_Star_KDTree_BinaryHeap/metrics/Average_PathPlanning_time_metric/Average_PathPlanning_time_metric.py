@@ -2,7 +2,7 @@ import math
 import random
 import numpy as np
 from scipy.spatial import KDTree
-import GPS_readings as gr
+import server_readings as gr
 
 
 class Node:

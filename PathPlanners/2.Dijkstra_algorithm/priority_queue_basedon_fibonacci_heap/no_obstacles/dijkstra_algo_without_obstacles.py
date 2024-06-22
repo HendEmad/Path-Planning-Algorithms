@@ -1,4 +1,4 @@
-import GPS_readings as gr
+import server_readings as gr
 import random
 from heapdict import heapdict
 from memory_profiler import profile

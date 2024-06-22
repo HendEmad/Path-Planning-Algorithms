@@ -1,5 +1,5 @@
 import numpy as np
-import GPS_readings as gr
+import server_readings as gr
 import math
 import obstacles
 

@@ -1,7 +1,7 @@
 import math
 import random
 import numpy as np
-import GPS_readings as gr
+import server_readings as gr
 
 class Node:
     def __init__(self, x, y):

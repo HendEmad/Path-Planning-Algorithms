@@ -2,7 +2,7 @@ import heapq
 import math
 from collections import deque
 from obstacles import create_obstacles
-import GPS_readings as gr
+import server_readings as gr
 import random
 import numpy as np
 from heapdict import heapdict

@@ -1,5 +1,5 @@
 from algo import run_dijkstra, weights
-from GPS_readings import start_x, start_y, end_x, end_y
+from server_readings import start_x, start_y, end_x, end_y
 import numpy as np
 
 num_trials = 10

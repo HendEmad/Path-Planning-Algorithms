@@ -1,6 +1,6 @@
 import sys
 from memory_profiler import profile
-import GPS_readings as gr
+import server_readings as gr
 import heapq
 import random
 

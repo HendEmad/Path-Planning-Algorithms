@@ -1,4 +1,4 @@
-import GPS_readings as gr
+import server_readings as gr
 
 class Graph:
     def __init__(self, start_x, start_y, end_x, end_y):

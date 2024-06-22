@@ -1,7 +1,7 @@
 import heapq
 import math
 from collections import deque
-import GPS_readings as gr
+import server_readings as gr
 import random
 import numpy as np
 from obstacles import create_obstacles

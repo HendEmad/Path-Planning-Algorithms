@@ -1,4 +1,4 @@
-import GPS_readings as gr
+import server_readings as gr
 import heapq
 import random
 from obstacles import create_obstacles

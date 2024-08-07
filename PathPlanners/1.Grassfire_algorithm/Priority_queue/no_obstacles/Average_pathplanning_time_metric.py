@@ -1,5 +1,5 @@
 from grassfire_algo_without_obstacles import run_grassfire
-from server_readings import start_x, start_y, end_x, end_y
+from GpsReading import start_x, start_y, end_x, end_y
 import time
 
 total_execution_time = 0.0

@@ -1,7 +1,7 @@
-import server_readings as gr
+import GpsReading as gr
 import heapq
 import random
-from obstacles import create_obstacles
+from ObstaclesGeneration import create_obstacles
 
 
 class Graph:
@@ -50,23 +50,8 @@ class Graph:
 
     def is_obstacle(self, node):
         for obstacle in self.obstacles:
-            if len(obstacle) == 3:  # circle obstacle
-                x, y, r = obstacle
-                if (node[0] - x) ** 2 + (node[1] - y) ** 2 <= r ** 2:
-                    return True
-            elif len(obstacle) == 4:  # rectangle obstacle
-                x1, y1, x2, y2 = obstacle
-                if x1 <= node[0] <= x2 and y1 <= node[1] <= y2:
-                    return True
-            elif len(obstacle) == 6:  # triangle obstacle
-                x1, y1, x2, y2, x3, y3 = obstacle
-                A = 1 / 2 * (-y2 * y3 + y1 * (-y2 + y3) + x1 * (x2 - x3) + x2 * y3 - x3 * y2)
-                sign = -1 if A < 0 else 1
-                s = (y1 * y3 - y1 * y2 - y2 * node[0] + y2 * y3 + node[1] * x2 - node[1] * x3 + node[0] * y2 - node[
-                    0] * y3) * sign
-                t = (y1 * y2 - y1 * node[0] - y2 * y3 + y3 * node[0] + node[1] * x3 - y3 * node[0]) * sign
-                if s > 0 and t > 0 and (s + t) < 2 * A * sign:
-                    return True
+            if obstacle.is_obstacle(node):
+                return True
         return False
 
     def dijkstra(self):

@@ -140,6 +140,20 @@ obstacle_positions = [
     ('pedestrian', gr.start_x - 0.016, gr.start_y + 0.15)
 ]
 
+def create_obstacles():
+        from EnvVisualization import obstacle_positions
+        obstacles = []
+        for obs in obstacle_positions:
+            if obs[0] == 'tree' or obs[0] == 'traffic_light':
+                obstacles.append((obs[1], obs[2], 0.02))
+            elif obs[0] == 'car':
+                obstacles.append((obs[1] - 0.01, obs[2] - 0.02, obs[1] + 0.01, obs[2]+ 0.02))
+            elif obs[0] == 'rock':
+                obstacles.append((obs[1], obs[2], 0.01))
+            elif obs[0] == 'pedestrian':
+                obstacles.append((obs[1] - 0.005, obs[2] - 0.005, obs[1] + 0.005, obs[2] + 0.005))
+        return obstacles
+
 # Load image function
 def load_image(image_path, zoom=0.1):
     img = mpimg.imread(image_path)

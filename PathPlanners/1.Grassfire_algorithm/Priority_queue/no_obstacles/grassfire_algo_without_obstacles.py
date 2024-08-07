@@ -1,4 +1,4 @@
-import server_readings as gr
+import GpsReading as gr
 import heapq
 
 
